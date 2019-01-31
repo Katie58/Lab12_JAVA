@@ -142,9 +142,9 @@ public class CarApp {
 		int input = 0;
 		boolean valid = false;
 		while(!valid) {
-			if (scnr.hasNextInt()) {
-				input = scnr.nextInt();
-				scnr.nextLine();
+			String in = scnr.nextLine();
+			if (!in.isEmpty() || !in.matches("[0-9]*")) {
+				input = (int) Integer.parseInt(in);
 				if (Integer.toString(input).length() == 4) {
 					if (input >= min && input <= max) {
 						return input;
@@ -162,7 +162,6 @@ public class CarApp {
 					continue;
 				}
 			} else {
-				scnr.nextLine();
 				System.out.print("Looking for numbers here, try again... ");
 				continue;
 			}
@@ -170,24 +169,25 @@ public class CarApp {
 		return input;
 	}
 	
-	public static double validatePrice() {
+	public static double validatePrice() {//editing
 		double price = 0.00;
 		boolean valid = false;
 		while(!valid) {
-			if (scnr.hasNextDouble()) {
-				price = scnr.nextDouble();
-				scnr.nextLine();
+			String in = scnr.nextLine().trim();
+			if (!in.isEmpty() || !in.matches("[$0-9,.]*")) {
+				if (in.charAt(0) == '$') {
+					in = in.substring(1);
+				}	
+				price = (double) Double.parseDouble(in);
 				if (price > 0) {
 					int priceTemp = (int) (price * 100);
 					price = ((double) priceTemp) / 100;
 					return price;
 				} else {
-					scnr.nextLine();
 					System.out.print("Obviously your car is in need of tlc, but surely it has some value, try again... ");
 					continue;
 				}
 			} else {
-				scnr.nextLine();
 				System.out.print("Not sure what kind of currency you are trying to enter, try again... ");
 				continue;
 			}
