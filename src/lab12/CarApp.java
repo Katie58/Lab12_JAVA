@@ -71,7 +71,7 @@ public class CarApp {
 		while(retry) {
 			System.out.println("1. Enter a new car to sell.\n2. Enter a used car to sell.\n3. Edit inventory.\n4. Find a car to buy.");
 			System.out.print("\nPlease select an option: (1-4) ");
-			int select = validateMenu(3);
+			int select = validateMenu(4);
 			switch(select) {
 			case 1: userInputCar(false);
 			break;
@@ -212,24 +212,30 @@ public class CarApp {
 		int removed = 0;
 		boolean retry = true;
 		while(retry) {
-			int select = 0;
-			printInventory();
-			System.out.print("Select a car to remove: (1-" + cars.size() + ") ");
-			select = validateMenu(cars.size());
-			System.out.println("You selected: ");
-			System.out.println(cars.get(select));
-			System.out.print("Are you sure you want to remove the " + cars.get(select).make + " " + cars.get(select).model + "? ");
-			if (validateYesNo(scnr.nextLine().charAt(0))) {
-				cars.replace(select, new Car("REMOVED", " ", 0000, 0.00));
-				usedKeys.remove(select);
-				removed++;
-			}	
-			if (removed < cars.size()) {
-				retry = retry("remove another car");
+			if (cars.size() > 0) {
+				int select = 0;
+				printInventory();
+				System.out.print("Select a car to remove: (1-" + cars.size() + ") ");
+				select = validateMenu(cars.size());
+				System.out.println("You selected: ");
+				System.out.println(cars.get(select));
+				System.out.print("Are you sure you want to remove the " + cars.get(select).make + " " + cars.get(select).model + "? ");
+				if (validateYesNo(scnr.nextLine().charAt(0))) {
+					cars.replace(select, new Car("REMOVED", " ", 0000, 0.00));
+					usedKeys.remove(select);
+					removed++;
+				}	
+				if (removed < cars.size()) {
+					retry = retry("remove another car");
+				} else {
+					System.out.println("Your inventory is now empty...");
+					retry = false;
+				}					
 			} else {
-				System.out.println("Your inventory is now empty...");
+				System.out.println("Your inventory is empty...");
 				retry = false;
-			}			
+			}
+		
 		}
 	}
 	
