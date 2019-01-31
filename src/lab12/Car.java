@@ -1,6 +1,5 @@
 package lab12;
-
-import java.text.DecimalFormat;
+import java.text.NumberFormat;
 
 public class Car {
 
@@ -53,8 +52,18 @@ public class Car {
 	
 	@Override
 	public String toString() {
-		DecimalFormat currency = new DecimalFormat("0.00");
-		return make + " " + model + " " + year + " $" + currency.format(price);
-	}
-	
+		NumberFormat currency = NumberFormat.getCurrencyInstance();
+		if (!CarApp.cars.containsValue(this)) {
+			return make + " " + model + " " + year + " " + currency.format(price);
+		} else {
+			int makeL = CarApp.padding("make") + 4 - make.length();
+			String padMake = CarApp.printMulti(makeL, ' ');
+			int modelL = CarApp.padding("model") + 4 - model.length();
+			String padModel = CarApp.printMulti(modelL, ' ');
+			int priceL = CarApp.padding("price") + 4 - Double.toString(price).length();
+			String padPrice = CarApp.printMulti(priceL, ' ');
+
+			return this.make + padMake + this.model + padModel + this.year + padPrice + " " + currency.format(this.price);
+		}
+	}	
 }
